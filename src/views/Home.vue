@@ -22,11 +22,13 @@
           <th>Date</th>
           <th>Id</th>
         </tr>
-        <tr :key="data.__EMPTY" v-if="data.__EMPTY == 1">
+        <tr class="trRowInput" :key="data.__EMPTY" v-if="data.__EMPTY == 1">
           <th>
+            <img src="./../assets/search-solid.svg">
             <input type="text" v-model="filterFirstName">
           </th>
           <th>
+            <img src="./../assets/search-solid.svg">
             <input type="text" v-model="filterLastName">
           </th>
           <th>
@@ -36,6 +38,7 @@
             <v-select :options="countryOptions" @input="filterCountryChange" />
           </th>
           <th>
+            <img src="./../assets/search-solid.svg">
             <input type="number" min="0" v-model="filterAge">
           </th>
           <th>
@@ -43,7 +46,8 @@
             <button @click="filterDate.start = null; filterDate.end = null">Clear</button>
           </th>
           <th>
-          <input type="number" min="0" v-model="filterId">
+            <img src="./../assets/search-solid.svg">
+            <input type="number" min="0" v-model="filterId">
           </th>
         </tr>
       </thead>
@@ -105,11 +109,11 @@
         let data = this.rawData;
         if (this.filterFirstName) {
           data = data.filter(element => (element['First Name'].toLowerCase().includes(this.filterFirstName
-          .toLowerCase())));
+            .toLowerCase())));
         }
         if (this.filterLastName) {
           data = data.filter(element => (element['Last Name'].toLowerCase().includes(this.filterLastName
-          .toLowerCase())));
+            .toLowerCase())));
         }
         if (this.filterGender) {
           data = data.filter(element => (element['Gender'].toLowerCase() == this.filterGender.toLowerCase()));
@@ -126,7 +130,7 @@
             const date = element['Date'].split('/');
             const correctDate = Date.parse(new Date(date[2], date[1], date[0]));
             if (correctDate >= Date.parse(this.filterDate.start) && correctDate <= Date.parse(this.filterDate
-              .end)) {
+                .end)) {
               filteredData.push(element);
             }
           });
@@ -276,11 +280,6 @@
     color: #017EFD;
   }
 
-  .home thead th {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
   .home thead tr {
     background-color: #017EFD14;
@@ -290,6 +289,42 @@
     display: flex;
     height: 7vh;
     text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .home thead tr {
+    margin-bottom: 1vh;
+  }
+
+  .home thead tr.trRowInput th {
+    padding: 25px;
+    background-color: #FFFFFF;
+    margin: 2vh;
+  }
+
+  .home thead tr.trRowInput th img {
+    padding-right: 10px;
+  }
+
+  .home thead tr.trRowInput input {
+    outline: none;
+    width: 20%;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    border-bottom:solid 2px #ffe799;
+    transition: 0.3s;
+  }
+
+  .home thead tr.trRowInput input:focus {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    border-bottom:solid 2px #FFC400;
+  }
+
+  .home thead th {
+    display: flex;
     justify-content: center;
     align-items: center;
   }
