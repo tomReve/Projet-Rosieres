@@ -1,18 +1,27 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <input-xls @change="dataChange"/>
+    <p>{{ rawData }}</p>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import InputXLS from '@/components/InputXLS'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    'input-xls':InputXLS
+  },
+  data(){
+    return {
+      rawData:[]
+    }
+  },
+  methods:{
+    dataChange(e) {
+      this.rawData = e;
+    }
   }
 }
 </script>
