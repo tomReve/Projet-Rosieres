@@ -1,10 +1,12 @@
 <template>
     <div class="pagination">
+        <div class="pagination-arrow" @click="toFirst">≪</div>
         <div class="pagination-link pagination-previous" :class="{'disabled':isDisabled('previous')}" @click="previousPage">{{ previous }}</div>
         <div class="pagination-selection">
             <div v-for="page in pagesToDisplay" :key="page" class="pagination-page-link" :class="{'selected':isSelected(page)}" @click="selectPage(page)">{{ page }}</div>
         </div>
         <div class="pagination-link pagination-next" @click="nextPage" :class="{'disabled':isDisabled('next')}">{{ next }}</div>
+        <div class="pagination-arrow" @click="toLast">≫</div>
     </div>
 </template>
 
@@ -93,6 +95,12 @@ export default {
                 return false;
             }
         },
+        toFirst(){
+            this.$emit('change',1);
+        },
+        toLast(){
+            this.$emit('change',this.pages);
+        },
         isDisabled(position){
             if(position == 'previous' && this.page == 1) {
                 return true;
@@ -117,7 +125,7 @@ export default {
         justify-content: space-around;
     }
 
-    .pagination-link, .pagination-page-link {
+    .pagination-link, .pagination-page-link, .pagination-arrow {
         cursor: pointer;
     }
 
