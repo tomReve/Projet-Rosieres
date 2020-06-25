@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "v-calendar": "^1.0.0-beta.23",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-select": "^3.10.3",
