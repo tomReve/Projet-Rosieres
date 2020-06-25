@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <img class="header" alt="Vue logo" src="./../assets/header-bannier.jpg">
     <input-xls @change="dataChange" />
     <section id="pagination">
       <p>Afficher</p>
@@ -81,7 +82,79 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@font-face {
+	font-family: "Lucida Grande Regular";
+	src: url('./../assets/Lucida_Grande_Regular.ttf');
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  font-family: "Lucida Grande Regular";
+}
+
+.home .header {
+  display: flex;
+  width: 100%;
+  height: auto;
+}
+
+.home table {
+  border-collapse: collapse;
+  width: 90%;
+  margin: auto;
+  color: #017EFD;
+}
+
+.home thead th {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home thead tr {
+  background-color: #017EFD14;
+}
+
+.home tr {
+  display: flex;
+  height: 7vh;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.home tbody tr:first-child {
+  border-top: 1px solid #017EFD73;
+}
+
+.home tbody tr {
+  border: 1px solid #017EFD73;
+  border-top: none;
+}
+
+.home tbody td {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #017EFD73;
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+}
+
+.home tbody tr td:last-child {
+  border-right: none;
+}
+
+.home thead th, .home tbody td {
+  width: 100%;
+  height: 50%;
+}
+
 @import "vue-select/src/scss/vue-select.scss";
 .home {
   width: 100%;
