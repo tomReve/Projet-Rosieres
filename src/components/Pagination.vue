@@ -116,6 +116,7 @@ export default {
 
 <style lang="scss">
 .pagination {
+    max-width: 30%;
     width: 100%;
     display: flex;
     justify-content: space-around;

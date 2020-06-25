@@ -1,10 +1,18 @@
 <template>
   <div class="home">
-    <input-xls @change="dataChange" />
+    <img class="header" alt="Vue logo" src="./../assets/header-bannier.jpg">
     <section id="pagination">
       <p>Afficher</p>
       <v-select :options="elementsPerPageOptions" :value="elementsPerPage" :searchable="false" @input="elementsPerPageChange"/>
       <p>personnes par page</p>
+      <div class="limite">
+        <p>Afficher</p>
+        <v-select :options="elementsPerPageOptions" :value="elementsPerPage" :searchable="false"
+          @input="elementsPerPageChange" />
+        <p>personnes par page</p>
+      </div>
+      <input-xls @change="dataChange" />
+      <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
     </section>
     <pagination :page="page" :pages="numberOfPages" @change="paginationChange"/>
     <table>
@@ -75,6 +83,7 @@
       'v-select':vSelect,
       'v-calendar':Calendar,
       'v-date-picker':DatePicker
+
     },
     data() {
       return {
@@ -158,11 +167,11 @@
         this.getGenderOptions();
         this.getCountryOptions();
       },
-      elementsPerPageChange(e){
+      elementsPerPageChange(e) {
         this.elementsPerPage = e;
         this.page = 1;
       },
-      paginationChange(e){
+      paginationChange(e) {
         this.page = e;
       },
       filterGenderChange(e){
@@ -200,18 +209,119 @@
 </script>
 
 <style lang="scss">
-@import "vue-select/src/scss/vue-select.scss";
-.home {
-  width: 100%;
+  @import "vue-select/src/scss/vue-select.scss";
 
-  #pagination {
-    display: flex;
-    align-items: center;
-
-    .v-select {
-      width: 10%;
-      margin: 0 1%;
-    }
+  @font-face {
+    font-family: "Lucida Grande Regular";
+    src: url('./../assets/Lucida_Grande_Regular.ttf');
   }
-}
+
+  .home {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    font-family: "Lucida Grande Regular";
+  }
+
+  .home #pagination {
+    display: flex;
+    justify-content: space-between;
+    margin: 4vh 0 4vh 0;
+  }
+
+  .home #pagination div.limite,
+  .home #pagination div.pagination,
+  .home #pagination div.btn-file {
+    display: flex;
+    flex-direction: row;
+    max-width: 30%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .home #pagination div.limite .v-select {
+    width: 25%;
+    margin: 0px 20px 0px 20px;
+    background-color: #ffff8a;
+    font-weight: 700;
+    border-radius: 100vh;
+  }
+
+  .home #pagination .limite svg {
+    fill: #000;
+  }
+
+  .home #pagination .vs__selected {
+    height: 100%;
+  }
+
+  .home #pagination .vs__dropdown-toggle {
+    border: none;
+  }
+
+  .home #pagination div.btn-file {
+    width: auto;
+  }
+
+  .home .header {
+    display: flex;
+    width: 100%;
+    height: auto;
+  }
+
+  .home table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+    color: #017EFD;
+  }
+
+  .home thead th {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .home thead tr {
+    background-color: #017EFD14;
+  }
+
+  .home tr {
+    display: flex;
+    height: 7vh;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .home tbody tr:first-child {
+    border-top: 1px solid #017EFD73;
+  }
+
+  .home tbody tr {
+    border: 1px solid #017EFD73;
+    border-top: none;
+  }
+
+  .home tbody td {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #017EFD73;
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+  }
+
+  .home tbody tr td:last-child {
+    border-right: none;
+  }
+
+  .home thead th,
+  .home tbody td {
+    width: 100%;
+    height: 50%;
+  }
 </style>
