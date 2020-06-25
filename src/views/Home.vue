@@ -9,11 +9,11 @@
     </section>
     <table>
       <thead>
-        <!-- <tr v-for="data in rawData" :key="data.__EMPTY">
-          <template v-for="(element, index) in data">
-            <th :key="element.key" v-if="data.__EMPTY == 1">{{element.key}} - {{index}}</th>
-          </template>
-        </tr> -->
+        <template v-for="data in rawData">
+          <tr :key="data.__EMPTY" v-if="data.__EMPTY == 1">
+            <th v-for="(element, index) in data" :key="element.key">{{index}}</th>
+          </tr>
+        </template>
       </thead>
       <tbody>
         <tr v-for="data in pageRawData" :key="data.__EMPTY">
