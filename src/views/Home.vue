@@ -76,7 +76,7 @@
         <td>Importez des données pour commencer à travailler.</td>
       </tr>
     </table>
-     <section id="pagination-bottom">
+    <section id="pagination-bottom">
       <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
     </section>
   </div>
@@ -221,15 +221,15 @@
         });
         this.countryOptions = countrys;
       },
-      clearFilters(){
+      clearFilters() {
         this.filterFirstName = null;
         this.filterLastName = null;
         this.filterGender = null;
         this.filterCountry = null;
         this.filterAge = null;
         this.filterDate = {
-          start:null,
-          end:null
+          start: null,
+          end: null
         };
         this.filterId = null;
       }
@@ -243,6 +243,22 @@
   @font-face {
     font-family: "Lucida Grande Regular";
     src: url('./../assets/Lucida_Grande_Regular.ttf');
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #00000000;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #FFC400;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #dba800;
   }
 
   .home {
@@ -292,6 +308,36 @@
 
   .home #pagination div.btn-file {
     width: auto;
+  }
+
+  .home .trRowInput input[type="input"] {
+    width: 75%;
+  }
+
+  .home .trRowInput button {
+    display: flex;
+    width: auto;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFC400;
+    border: solid 2px #FFC400;
+    color: #fff3cc;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.2s;
+    font-weight: 600;
+  }
+
+  .home .trRowInput button:hover {
+    background-color: #fff3cc;
+    color: #FFC400;
+  }
+
+  .home .trRowInput button:focus {
+    background-color: #fff3cc;
+    border: solid 2px #fff3cc;
+    color: #FFC400;
   }
 
   .home .header {
@@ -346,12 +392,12 @@
     width: 20%;
     background-color: rgba(0, 0, 0, 0);
     border: none;
-    border-bottom: solid 2px #ffe799;
+    border-bottom: solid 2px hsl(46, 100%, 85%);
     transition: 0.3s;
   }
 
   .home thead tr.trRowInput input:focus {
-    width: 100%;
+    width: 70%;
     background-color: rgba(0, 0, 0, 0);
     border: none;
     border-bottom: solid 2px #FFC400;
@@ -390,5 +436,15 @@
   .home tbody td {
     width: 100%;
     height: 50%;
+  }
+
+  .home #pagination-bottom {
+    display: flex;
+    height: 5vh;
+    margin: 2.5vh 0 2.5vh 0;
+  }
+
+  .home #pagination-bottom .pagination {
+    width: 30%;
   }
 </style>
