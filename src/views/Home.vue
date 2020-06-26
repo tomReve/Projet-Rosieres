@@ -4,11 +4,14 @@
     <section id="pagination">
       <div class="limite" v-if="rawData.length > 0">
         <p>Afficher</p>
-        <v-select :options="elementsPerPageOptions" :value="elementsPerPage" :searchable="false"
+        <v-select :options="elementsPerPageOptions" :clearable="false" :value="elementsPerPage" :searchable="false"
           @input="elementsPerPageChange" />
         <p>personnes par page</p>
       </div>
-      <input-xls @change="dataChange" />
+      <div class="btn-group">
+        <input-xls @change="dataChange" />
+        <button @click="clearFilters">Vider les filtres</button>
+      </div>
       <pagination v-if="rawData.length > 0" :page="page" :pages="numberOfPages" @change="paginationChange" />
     </section>
     <table v-if="rawData.length > 0">
@@ -57,11 +60,11 @@
           <td>{{data['Last Name']}}</td>
           <td>{{data['Gender']}}</td>
           <td>
-            <img :src="require(`@/assets/${getFlag(data['Country'])}`)"/>
-            </td>
+            <img :src="require(`@/assets/${getFlag(data['Country'])}`)" />
+          </td>
           <td>{{data['Age']}}</td>
           <td>{{data['Date']}}</td>
-          <td>{{data['Id']}}</td>
+          <td><a :href="'https://www.commune-rosieres10.fr/Recherche?id_article=' + data['Id'] ">{{data['Id']}}</a></td>
         </tr>
       </tbody>
       <tbody v-else>
@@ -119,19 +122,19 @@
           end: null,
         },
         filterId: null,
-        sort:{
-          firstName:false,
-          lastName:false,
-          gender:false,
-          country:false,
-          age:false,
-          date:false,
-          id:false
+        sort: {
+          firstName: false,
+          lastName: false,
+          gender: false,
+          country: false,
+          age: false,
+          date: false,
+          id: false
         },
-        flags:{
-          'france':'fr.svg',
-          'united states':'us.svg',
-          'great britain':'uk.svg'
+        flags: {
+          'france': 'fr.svg',
+          'united states': 'us.svg',
+          'great britain': 'uk.svg'
         }
       }
     },
@@ -160,7 +163,8 @@
           data.forEach(element => {
             const date = element['Date'].split('/');
             const correctDate = Date.parse(new Date(date[2], date[1], date[0]));
-            if (correctDate >= Date.parse(this.filterDate.start) && correctDate <= Date.parse(this.filterDate.end)) {
+            if (correctDate >= Date.parse(this.filterDate.start) && correctDate <= Date.parse(this.filterDate
+              .end)) {
               filteredData.push(element);
             }
           });
@@ -172,22 +176,23 @@
 
         // ? Sort
 
-        if(this.sort.firstName) {
-            data.sort((a, b) => (a['First Name'] > b['First Name']) ? 1 : -1)
-        } else if(this.sort.lastName) {
-            data.sort((a, b) => (a['Last Name'] > b['Last Name']) ? 1 : -1)
-        } else if(this.sort.gender) {
-            data.sort((a, b) => (a['Gender'] > b['Gender']) ? 1 : -1)
-        } else if(this.sort.country) {
-            data.sort((a, b) => (a['Country'] > b['Country']) ? 1 : -1)
-        } else if(this.sort.age) {
-            data.sort((a, b) => (a['Age'] > b['Age']) ? 1 : -1)
-        } else if(this.sort.date) {
-            data.sort((a, b) => (a['Date'].split('').reverse().join('') > b['Date'].split('').reverse().join('')) ? 1 : -1)
-        } else if(this.sort.id) {
-            data.sort((a, b) => (a['Id'] > b['Id']) ? 1 : -1)
+        if (this.sort.firstName) {
+          data.sort((a, b) => (a['First Name'] > b['First Name']) ? 1 : -1)
+        } else if (this.sort.lastName) {
+          data.sort((a, b) => (a['Last Name'] > b['Last Name']) ? 1 : -1)
+        } else if (this.sort.gender) {
+          data.sort((a, b) => (a['Gender'] > b['Gender']) ? 1 : -1)
+        } else if (this.sort.country) {
+          data.sort((a, b) => (a['Country'] > b['Country']) ? 1 : -1)
+        } else if (this.sort.age) {
+          data.sort((a, b) => (a['Age'] > b['Age']) ? 1 : -1)
+        } else if (this.sort.date) {
+          data.sort((a, b) => (a['Date'].split('').reverse().join('') > b['Date'].split('').reverse().join('')) ? 1 : -
+            1)
+        } else if (this.sort.id) {
+          data.sort((a, b) => (a['Id'] > b['Id']) ? 1 : -1)
         } else {
-            data.sort((a, b) => (a['__EMPTY'] > b['__EMPTY']) ? 1 : -1)
+          data.sort((a, b) => (a['__EMPTY'] > b['__EMPTY']) ? 1 : -1)
         }
 
 
@@ -215,10 +220,10 @@
       this.getCountryOptions();
     },
     methods: {
-      sortBy(type){
+      sortBy(type) {
         for (let [key, value] of Object.entries(this.sort)) {
-          if(key == type) {
-            if(this.sort[key]) {
+          if (key == type) {
+            if (this.sort[key]) {
               this.sort[key] = false;
             } else {
               this.sort[key] = true;
@@ -226,7 +231,7 @@
           } else {
             this.sort[key] = false;
           }
-        }  
+        }
       },
       dataChange(e) {
         this.rawData = e;
@@ -285,18 +290,18 @@
       },
       isSorted(type) {
         for (let [key, value] of Object.entries(this.sort)) {
-          if(key == type && value == true) {
+          if (key == type && value == true) {
             return true;
           }
         }
-        return false;         
+        return false;
       },
       getFlag(country) {
         for (let [key, value] of Object.entries(this.flags)) {
-          if(key == country.toLowerCase()) {
+          if (key == country.toLowerCase()) {
             return value;
           }
-        }        
+        }
       }
     }
   }
@@ -325,7 +330,7 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #dba800;
   }
-  
+
   .home {
     display: flex;
     flex-direction: column;
@@ -350,6 +355,13 @@
     justify-content: center;
     align-items: center;
     margin: auto;
+  }
+
+  .home #pagination .btn-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .home #pagination div.limite .v-select {
@@ -380,10 +392,12 @@
     width: 75%;
   }
 
-  .home .trRowInput button {
+  .home .trRowInput button,
+  .home #pagination .btn-group button,
+  .home tbody button {
     display: flex;
     width: auto;
-    height: 50%;
+    height: 3vh;
     justify-content: center;
     align-items: center;
     background-color: #FFC400;
@@ -393,6 +407,7 @@
     outline: none;
     transition: 0.2s;
     font-weight: 600;
+    margin: 1vh;
   }
 
   .home .trRowInput button:hover {
@@ -428,7 +443,7 @@
     }
 
     th.sorted {
-      color:#FF8F00;
+      color: #FF8F00;
     }
   }
 
@@ -513,16 +528,24 @@
     cursor: default;
   }
 
+  .home tbody a {
+    text-decoration: none;
+    color: #017EFD;
+    font-weight: 700;
+  }
+
   .vs__selected-options {
     white-space: nowrap;
     cursor: pointer;
+
     input.vs__search {
-      border-bottom: 0!important;
+      border-bottom: 0 !important;
     }
   }
 
   .vs__actions {
     cursor: pointer;
+
     svg {
       fill: #B1D7FE;
     }
@@ -530,13 +553,16 @@
 
   .v-select {
     cursor: pointer;
+
     .vs__dropdown-toggle {
       border: 1px solid #AFD6FE;
       border-radius: 8px;
     }
   }
+
   input {
     cursor: pointer;
+
     &:hover {
       cursor: pointer;
     }
