@@ -9,9 +9,9 @@
         <p>personnes par page</p>
       </div>
       <input-xls @change="dataChange" />
-      <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
+      <pagination v-if="rawData.length > 0" :page="page" :pages="numberOfPages" @change="paginationChange" />
     </section>
-    <table>
+    <table v-if="rawData.length > 0">
       <thead v-for="data in rawData" :key="data.__EMPTY">
         <tr v-if="data.__EMPTY == 1">
           <th>Prénom</th>
@@ -51,7 +51,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="pageRawData.length >= 1">
         <tr v-for="data in pageRawData" :key="data.__EMPTY">
           <td>{{data['First Name']}}</td>
           <td>{{data['Last Name']}}</td>
@@ -62,8 +62,21 @@
           <td>{{data['Id']}}</td>
         </tr>
       </tbody>
+      <tbody v-else>
+        <tr>
+          <td>
+            Aucun élément ne correspond à votre recherche.
+            <button @click="clearFilters">Vider les filtres</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
-    <section id="pagination-bottom">
+    <table v-else>
+      <tr>
+        <td>Importez des données pour commencer à travailler.</td>
+      </tr>
+    </table>
+     <section id="pagination-bottom">
       <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
     </section>
   </div>
@@ -207,6 +220,18 @@
           }
         });
         this.countryOptions = countrys;
+      },
+      clearFilters(){
+        this.filterFirstName = null;
+        this.filterLastName = null;
+        this.filterGender = null;
+        this.filterCountry = null;
+        this.filterAge = null;
+        this.filterDate = {
+          start:null,
+          end:null
+        };
+        this.filterId = null;
       }
     }
   }
