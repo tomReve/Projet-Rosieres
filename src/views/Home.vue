@@ -466,7 +466,7 @@
     width: 20%;
     background-color: rgba(0, 0, 0, 0);
     border: none;
-    border-bottom: solid 2px hsl(46, 100%, 85%);
+    border-bottom: solid 2px #ffe799;
     transition: 0.3s;
   }
 
@@ -510,6 +510,40 @@
   .home tbody td {
     width: 100%;
     height: 50%;
+    cursor: default;
+  }
+
+  .vs__selected-options {
+    white-space: nowrap;
+    cursor: pointer;
+    input.vs__search {
+      border-bottom: 0!important;
+    }
+  }
+
+  .vs__actions {
+    cursor: pointer;
+    svg {
+      fill: #B1D7FE;
+    }
+  }
+
+  .v-select {
+    cursor: pointer;
+    .vs__dropdown-toggle {
+      border: 1px solid #AFD6FE;
+      border-radius: 8px;
+    }
+  }
+  input {
+    cursor: pointer;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .v-select .vs__dropdown-toggle {
+    cursor: pointer;
   }
 
   .home #pagination-bottom {
