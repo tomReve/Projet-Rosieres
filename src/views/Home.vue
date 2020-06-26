@@ -63,7 +63,9 @@
         </tr>
       </tbody>
     </table>
-    <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
+    <section id="pagination-bottom">
+      <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
+    </section>
   </div>
 </template>
 
@@ -298,9 +300,16 @@
   }
 
   .home thead tr.trRowInput th {
-    padding: 25px;
+    display: flex;
+    width: 100%;
+    height: calc(100% - 1.5vh);
+    margin: 0.75vh;
     background-color: #FFFFFF;
-    margin: 2vh;
+    margin-right: 0;
+  }
+
+  .home thead tr.trRowInput th:last-child {
+    margin-right: 0.75vh;
   }
 
   .home thead tr.trRowInput th img {
@@ -312,7 +321,7 @@
     width: 20%;
     background-color: rgba(0, 0, 0, 0);
     border: none;
-    border-bottom:solid 2px #ffe799;
+    border-bottom: solid 2px #ffe799;
     transition: 0.3s;
   }
 
@@ -320,7 +329,7 @@
     width: 100%;
     background-color: rgba(0, 0, 0, 0);
     border: none;
-    border-bottom:solid 2px #FFC400;
+    border-bottom: solid 2px #FFC400;
   }
 
   .home thead th {
