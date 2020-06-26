@@ -32,7 +32,7 @@
             <input type="text" v-model="filterLastName">
           </th>
           <th>
-            <v-select :options="genderOptions" @input="filterGenderChange" />
+            <v-select :options="genderOptions" :searchable="false" @input="filterGenderChange" />
           </th>
           <th>
             <v-select :options="countryOptions" @input="filterCountryChange" />
