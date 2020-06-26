@@ -4,7 +4,7 @@
     <section id="pagination">
       <div class="limite" v-if="rawData.length > 0">
         <p>Afficher</p>
-        <v-select :options="elementsPerPageOptions" :value="elementsPerPage" :searchable="false"
+        <v-select :options="elementsPerPageOptions" :clearable="false" :value="elementsPerPage" :searchable="false"
           @input="elementsPerPageChange" />
         <p>personnes par page</p>
       </div>
