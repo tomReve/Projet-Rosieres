@@ -2,7 +2,7 @@
   <div class="home">
     <img class="header" alt="Vue logo" src="./../assets/header-bannier.jpg">
     <section id="pagination">
-      <div class="limite">
+      <div class="limite" v-if="rawData.length > 0">
         <p>Afficher</p>
         <v-select :options="elementsPerPageOptions" :value="elementsPerPage" :searchable="false"
           @input="elementsPerPageChange" />
@@ -77,7 +77,7 @@
       </tr>
     </table>
     <section id="pagination-bottom">
-      <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
+      <pagination v-if="rawData.length > 0" :page="page" :pages="numberOfPages" @change="paginationChange" />
     </section>
   </div>
 </template>
@@ -335,6 +335,7 @@
     width: 100%;
     justify-content: center;
     align-items: center;
+    margin: auto;
   }
 
   .home #pagination div.limite .v-select {
@@ -505,5 +506,6 @@
 
   .home #pagination-bottom .pagination {
     width: 30%;
+    margin-right: 5%;
   }
 </style>
