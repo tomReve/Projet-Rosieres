@@ -12,17 +12,17 @@
       <pagination v-if="rawData.length > 0" :page="page" :pages="numberOfPages" @change="paginationChange" />
     </section>
     <table v-if="rawData.length > 0">
-      <thead v-for="data in rawData" :key="data.__EMPTY">
-        <tr v-if="data.__EMPTY == 1">
-          <th>Prénom</th>
-          <th>Nom</th>
-          <th>Genre</th>
-          <th>Pays</th>
-          <th>Âge</th>
-          <th>Date</th>
-          <th>Id</th>
+      <thead>
+        <tr>
+          <th :class="[{'sorted':isSorted('firstName')}]" @click="sortBy('firstName')">Prénom</th>
+          <th :class="[{'sorted':isSorted('lastName')}]" @click="sortBy('lastName')">Nom</th>
+          <th :class="[{'sorted':isSorted('gender')}]" @click="sortBy('gender')">Genre</th>
+          <th :class="[{'sorted':isSorted('country')}]" @click="sortBy('country')">Pays</th>
+          <th :class="[{'sorted':isSorted('age')}]" @click="sortBy('age')">Âge</th>
+          <th :class="[{'sorted':isSorted('date')}]" @click="sortBy('date')">Date</th>
+          <th :class="[{'sorted':isSorted('id')}]" @click="sortBy('id')">Id</th>
         </tr>
-        <tr class="trRowInput" :key="data.__EMPTY" v-if="data.__EMPTY == 1">
+        <tr class="trRowInput">
           <th>
             <img src="./../assets/search-solid.svg">
             <input type="text" v-model="filterFirstName">
@@ -32,7 +32,7 @@
             <input type="text" v-model="filterLastName">
           </th>
           <th>
-            <v-select :options="genderOptions" @input="filterGenderChange" />
+            <v-select :options="genderOptions" :searchable="false" @input="filterGenderChange" />
           </th>
           <th>
             <v-select :options="countryOptions" @input="filterCountryChange" />
@@ -116,7 +116,16 @@
           start: null,
           end: null,
         },
-        filterId: null
+        filterId: null,
+        sort:{
+          firstName:false,
+          lastName:false,
+          gender:false,
+          country:false,
+          age:false,
+          date:false,
+          id:false
+        }
       }
     },
     computed: {
@@ -144,8 +153,7 @@
           data.forEach(element => {
             const date = element['Date'].split('/');
             const correctDate = Date.parse(new Date(date[2], date[1], date[0]));
-            if (correctDate >= Date.parse(this.filterDate.start) && correctDate <= Date.parse(this.filterDate
-                .end)) {
+            if (correctDate >= Date.parse(this.filterDate.start) && correctDate <= Date.parse(this.filterDate.end)) {
               filteredData.push(element);
             }
           });
@@ -154,6 +162,28 @@
         if (this.filterId) {
           data = data.filter(element => (element['Id'].toString().includes(this.filterId)));
         }
+
+        // ? Sort
+
+        if(this.sort.firstName) {
+            data.sort((a, b) => (a['First Name'] > b['First Name']) ? 1 : -1)
+        } else if(this.sort.lastName) {
+            data.sort((a, b) => (a['Last Name'] > b['Last Name']) ? 1 : -1)
+        } else if(this.sort.gender) {
+            data.sort((a, b) => (a['Gender'] > b['Gender']) ? 1 : -1)
+        } else if(this.sort.country) {
+            data.sort((a, b) => (a['Country'] > b['Country']) ? 1 : -1)
+        } else if(this.sort.age) {
+            data.sort((a, b) => (a['Age'] > b['Age']) ? 1 : -1)
+        } else if(this.sort.date) {
+            data.sort((a, b) => (a['Date'].split('').reverse().join('') > b['Date'].split('').reverse().join('')) ? 1 : -1)
+        } else if(this.sort.id) {
+            data.sort((a, b) => (a['Id'] > b['Id']) ? 1 : -1)
+        } else {
+            data.sort((a, b) => (a['__EMPTY'] > b['__EMPTY']) ? 1 : -1)
+        }
+
+
 
         return data;
       },
@@ -178,6 +208,19 @@
       this.getCountryOptions();
     },
     methods: {
+      sortBy(type){
+        for (let [key, value] of Object.entries(this.sort)) {
+          if(key == type) {
+            if(this.sort[key]) {
+              this.sort[key] = false;
+            } else {
+              this.sort[key] = true;
+            }
+          } else {
+            this.sort[key] = false;
+          }
+        }  
+      },
       dataChange(e) {
         this.rawData = e;
         localStorage.rawData = JSON.stringify(this.rawData);
@@ -232,6 +275,14 @@
           end: null
         };
         this.filterId = null;
+      },
+      isSorted(type) {
+        for (let [key, value] of Object.entries(this.sort)) {
+          if(key == type && value == true) {
+            return true;
+          }
+        }
+        return false;         
       }
     }
   }
@@ -260,7 +311,7 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #dba800;
   }
-
+  
   .home {
     display: flex;
     flex-direction: column;
@@ -356,6 +407,14 @@
 
   .home thead tr {
     background-color: #017EFD14;
+
+    th {
+      cursor: pointer;
+    }
+
+    th.sorted {
+      color:#FF8F00;
+    }
   }
 
   .home tr {
