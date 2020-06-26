@@ -9,9 +9,9 @@
         <p>personnes par page</p>
       </div>
       <input-xls @change="dataChange" />
-      <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
+      <pagination v-if="rawData.length > 0" :page="page" :pages="numberOfPages" @change="paginationChange" />
     </section>
-    <table>
+    <table v-if="rawData.length > 0">
       <thead v-for="data in rawData" :key="data.__EMPTY">
         <tr v-if="data.__EMPTY == 1">
           <th>Prénom</th>
@@ -51,7 +51,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="pageRawData.length >= 1">
         <tr v-for="data in pageRawData" :key="data.__EMPTY">
           <td>{{data['First Name']}}</td>
           <td>{{data['Last Name']}}</td>
@@ -62,8 +62,23 @@
           <td>{{data['Id']}}</td>
         </tr>
       </tbody>
+      <tbody v-else>
+        <tr>
+          <td>
+            Aucun élément ne correspond à votre recherche.
+            <button @click="clearFilters">Vider les filtres</button>
+          </td>
+        </tr>
+      </tbody>
     </table>
-    <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
+    <table v-else>
+      <tr>
+        <td>Importez des données pour commencer à travailler.</td>
+      </tr>
+    </table>
+     <section id="pagination-bottom">
+      <pagination :page="page" :pages="numberOfPages" @change="paginationChange" />
+    </section>
   </div>
 </template>
 
@@ -205,6 +220,18 @@
           }
         });
         this.countryOptions = countrys;
+      },
+      clearFilters(){
+        this.filterFirstName = null;
+        this.filterLastName = null;
+        this.filterGender = null;
+        this.filterCountry = null;
+        this.filterAge = null;
+        this.filterDate = {
+          start:null,
+          end:null
+        };
+        this.filterId = null;
       }
     }
   }
@@ -298,9 +325,16 @@
   }
 
   .home thead tr.trRowInput th {
-    padding: 25px;
+    display: flex;
+    width: 100%;
+    height: calc(100% - 1.5vh);
+    margin: 0.75vh;
     background-color: #FFFFFF;
-    margin: 2vh;
+    margin-right: 0;
+  }
+
+  .home thead tr.trRowInput th:last-child {
+    margin-right: 0.75vh;
   }
 
   .home thead tr.trRowInput th img {
@@ -312,7 +346,7 @@
     width: 20%;
     background-color: rgba(0, 0, 0, 0);
     border: none;
-    border-bottom:solid 2px #ffe799;
+    border-bottom: solid 2px #ffe799;
     transition: 0.3s;
   }
 
@@ -320,7 +354,7 @@
     width: 100%;
     background-color: rgba(0, 0, 0, 0);
     border: none;
-    border-bottom:solid 2px #FFC400;
+    border-bottom: solid 2px #FFC400;
   }
 
   .home thead th {
@@ -356,5 +390,39 @@
   .home tbody td {
     width: 100%;
     height: 50%;
+    cursor: default;
+  }
+
+  .vs__selected-options {
+    white-space: nowrap;
+    cursor: pointer;
+    input.vs__search {
+      border-bottom: 0!important;
+    }
+  }
+
+  .vs__actions {
+    cursor: pointer;
+    svg {
+      fill: #B1D7FE;
+    }
+  }
+
+  .v-select {
+    cursor: pointer;
+    .vs__dropdown-toggle {
+      border: 1px solid #AFD6FE;
+      border-radius: 8px;
+    }
+  }
+  input {
+    cursor: pointer;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .v-select .vs__dropdown-toggle {
+    cursor: pointer;
   }
 </style>
