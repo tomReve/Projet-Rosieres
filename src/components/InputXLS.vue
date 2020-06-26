@@ -79,7 +79,6 @@
     right: 0;
     text-align: right;
     top: 0;
-    cursor: pointer;
   }
 
 </style>
