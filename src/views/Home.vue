@@ -56,7 +56,9 @@
           <td>{{data['First Name']}}</td>
           <td>{{data['Last Name']}}</td>
           <td>{{data['Gender']}}</td>
-          <td>{{data['Country']}}</td>
+          <td>
+            <img :src="require(`@/assets/${getFlag(data['Country'])}`)"/>
+            </td>
           <td>{{data['Age']}}</td>
           <td>{{data['Date']}}</td>
           <td>{{data['Id']}}</td>
@@ -125,6 +127,11 @@
           age:false,
           date:false,
           id:false
+        },
+        flags:{
+          'france':'fr.svg',
+          'united states':'us.svg',
+          'great britain':'uk.svg'
         }
       }
     },
@@ -283,6 +290,13 @@
           }
         }
         return false;         
+      },
+      getFlag(country) {
+        for (let [key, value] of Object.entries(this.flags)) {
+          if(key == country.toLowerCase()) {
+            return value;
+          }
+        }        
       }
     }
   }
